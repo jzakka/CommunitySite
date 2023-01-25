@@ -21,4 +21,4 @@ decorator:
       enable-logging: false
 
 file:
-  dir: /home/ec2-user/apps/file
+  dir: /home/ec2-user/apps/file/

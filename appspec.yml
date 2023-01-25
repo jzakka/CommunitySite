@@ -6,9 +6,11 @@ files:
 permission:
   - object: /
     pattern: "**"
+    mode: 777
     owner: ec2-user
     group: ec2-user
 hooks:
   AfterInstall:
     - location: execute-deploy.sh
       timeout: 180
+      runas: ec2-user
