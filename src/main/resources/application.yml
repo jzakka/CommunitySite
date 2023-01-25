@@ -20,7 +20,7 @@ server:
     session:
       tracking-modes: cookie
       timeout: 300
-  port: 80
+  port: 8080
 
 file:
   dir: /Users/Projects/file/
