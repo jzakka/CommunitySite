@@ -1,0 +1,46 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'CommunitySIte'
+version = '0.0.2-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.github.bufferings:thymeleaf-extras-nl2br:1.0.0'
+	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
+	implementation 'junit:junit:4.13.1'
+	implementation 'net.jodah:expiringmap:0.5.10'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly('org.mariadb.jdbc:mariadb-java-client')
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// https://mvnrepository.com/artifact/org.springframework/spring-test
+	testImplementation group: 'org.springframework', name: 'spring-test', version: '5.3.22'
+	// https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

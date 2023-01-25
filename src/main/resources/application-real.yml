@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    include: real-db
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: none
+
+  session:
+    store-type: jdbc
+
+logging.level:
+  org.hibernate.SQL: info
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
+file:
+  dir: /home/ec2-user/app/file

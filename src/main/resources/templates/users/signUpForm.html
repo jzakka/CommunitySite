@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div class="container">
+    <form role="form" action="/login" th:action="@{/users/new}" th:object="${signUpForm}" method="post">
+        <label for="loginId" class="form-label">아이디</label>
+        <input type="text" th:field="*{loginId}" id="loginId" th:errorclass="field-error" class="form-control">
+        <div class="field-error" th:errors="*{loginId}"></div>
+        <label for="username" class="form-label">이름</label>
+        <input type="text" th:field="*{username}" id="username" th:errorclass="field-error" class="form-control">
+        <div class="field-error" th:errors="*{username}"></div>
+        <label for="password" class="form-label">비밀번호</label>
+        <input type="password" th:field="*{password}" id="password" th:errorclass="field-error" class="form-control mb-2">
+        <div class="field-error mb-2" th:errors="*{password}"></div>
+        <div class="row gap-1">
+            <div class="col d-grid gap-2">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">회원가입</button>
+            </div>
+            <div class="col d-grid gap-2">
+                <button type="button" class="btn btn-secondary btn-sm" th:onclick="|location.href='@{/}'|">취소</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

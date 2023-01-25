@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<div class="container" style="text-align: center">
+    <div style="text-align: initial">
+         <h3 style="display: inline">안녕하세요!</h3>저는 백엔드 개발자를 꿈꾸고 있는 컴퓨터공학과 3학년입니다.
+        저의 웹 서비스를 만들어보고 싶어서 CommunityS1te를 만들어 보았습니다.
+        이 애플리케이션은 기존의 인터넷 커뮤니티의 서비스 형태를 참고삼아 만들어졌습니다.
+        각자 주제를 갖는 포럼이 존재하고 마이너 포럼은 포럼의 관리자가 관리하며 운영자 계정이 이를 위임하게 됩니다.
+         서비스는 사용자가 인증을 하든 안하든 이용할 수 있으나 미인증 사용자의 경우 게시글 및 댓글에 대한 보안이
+        보장되지 않을 수도 있습니다.
+         게시글은 추천/비추천을 할 수 있고 한 번 추천/비추천을 하면 일정 시간이 지나야 다시 가능합니다.
+    </div>
+</div>
+
+<div style="text-align: center">
+    <p class="h3 text-center" style="display: inline-block">Forum List</p>
+    <a th:if="${user!=null && user.userType==user.userType?.ADMIN}" th:href="@{/forum/new}" class="link-secondary">
+        포럼 생성
+    </a>
+</div>
+
+<div class="container" style="text-align: center">
+    <div class="btn-group-vertical" style="display: inline-block;min-width: 20px;width: 60%">
+        <button th:each="forum :${forums}" type="button" class="btn btn-outline-dark"
+                th:onclick="|location.href='@{/forum/{id}(id=${forum.id})}'|">
+            <p th:text="${forum.getForumName()}" style="display: inline-block;margin-bottom: 0px">포럼이름</p>
+            <span th:if="${(forum.forumType==forum.forumType?.MINOR)}" class="badge bg-secondary">M</span>
+        </button>
+    </div>
+</div>
+</body>
+</html>

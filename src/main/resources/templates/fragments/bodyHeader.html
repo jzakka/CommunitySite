@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="header bg-black"  th:fragment="bodyHeader">
+  <a href="/" style="display: inline-block" class="ms-2 mt-3 text-decoration-none">
+    <h3 class="text-white font-monospace">CommunitySIte</h3></a>
+  <div style="display: inline-block;position: absolute;right: 30px;top: 20px">
+    <div th:if="${user != null}" >
+      <p th:text="|${user.userName} 님 안녕하세요!|" class="text-white" style="display: inline-block"></p>
+      <button type="button" th:onclick="|location.href='@{/logout}'|" class="btn btn-sm btn-outline-light">로그아웃</button>
+    </div>
+    <div th:if="${user == null}" >
+      <button type="button" th:onclick="|location.href='@{/login}'|" class="btn btn-sm btn-outline-light">로그인</button>
+    </div>
+  </div>
+</div>

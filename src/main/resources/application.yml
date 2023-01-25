@@ -1,0 +1,31 @@
+spring:
+  cache:
+    type: none
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+logging.level:
+  org.hibernate.SQL: info
+
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+  servlet:
+    session:
+      tracking-modes: cookie
+      timeout: 300
+  port: 80
+
+file:
+  dir: /Users/Projects/file/
+
+decorator:
+  datasource:
+    p6spy:
+      log-format: CommunitySIte.p6spy.P6SpyFormatter

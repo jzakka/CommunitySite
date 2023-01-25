@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:nl2br="https://github.com/bufferings/thymeleaf-extras-nl2br">
+<div id="post" class="card mb-3" th:each="post:${posts}" th:fragment="post" style="width: 45rem;cursor:pointer"
+     th:onclick="|location.href='@{/forum/{forumId}/post/{postId}(postId=${post.id}, forumId=${forum.id})}'|">
+    <div class="card-header">
+        <p style="display: inline-block" class="fw-lighter m-0" th:text="${{post.lastModifiedDate.withNano(0)}}">마지막 수정일자</p>
+        <span th:if="${post.good!=0}" style="position: absolute;right: 15px" class="badge bg-success" th:text="${post.good}">추천수</span>
+    </div>
+    <img th:if="${post.imageFile}" src="../static/images/pirate.jpg" style="max-height: 20rem;max-width: 45rem;object-fit: cover"
+        loading="lazy" th:src="|/image/${post.imageFile.storeFileName}|" class="card-img-top" alt="..."/>
+
+    <div class="card-body">
+        <h5 class="card-title">
+            <span th:text="${post.title}">제목</span>
+            <span th:if="${!post.comments.isEmpty()}" th:text="|(${post.comments.size()})|">댓글수</span>
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted"
+            th:text="${(post.postType!=postType[0])?post.anonymousUserName:post.user.userName}">작성자</h6>
+        <p class="card-text" nl2br:text="${post.content}">내용</p>
+    </div>
+</div>
+</html>

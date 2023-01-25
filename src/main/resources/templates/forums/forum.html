@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:nl2br="https://github.com/bufferings/thymeleaf-extras-nl2br">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body class="bg-secondary bg-opacity-10">
+
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<a th:replace="fragments/forumName :: forumName"/>
+
+<div class="p-2" style="min-width: 1000px">
+    <div class="row pt-3">
+        <div class="col">
+            <form th:action="@{/forum/{forumId}/post/new(forumId=${forum.id})}" th:object="${postFeedForm}"
+                  method="post"
+                  enctype="multipart/form-data">
+                <input type="hidden" id="posts" name="posts" th:value="${posts}">
+                <input type="hidden" id="categories" name="categories" th:value="${categories}">
+                <input type="hidden" id="forumName" name="forumName" th:value="${forum.forumName}">
+                <div class="mb-3">
+                    <label for="title" class="form-label">제목</label>
+                    <input type="text" id="title" th:field="*{title}"
+                           th:classappend="${errors?.containsKey('title')}?'field-error':_" class="form-control">
+                    <div class="field-error" th:if="${errors?.containsKey('title')}"
+                         th:text="${errors['title']}">제목 기입 오류
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div th:if="${user==null}" class="col">
+                        <label for="username" class="form-label">작성자</label>
+                        <input type="text" id="username" th:field="*{username}"
+                               th:classappend="${errors?.containsKey('username')}?'field-error':_" class="form-control">
+                        <div class="field-error" th:if="${errors?.containsKey('username')}"
+                             th:text="${errors['username']}">작성자 이름 기입 오류
+                        </div>
+                    </div>
+                    <div th:if="${user==null}" class="col">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" id="password" th:field="*{password}"
+                               th:classappend="${errors?.containsKey('password')}?'field-error':_" class="form-control">
+                        <div class="field-error" th:if="${errors?.containsKey('password')}"
+                             th:text="${errors['password']}">비밀번호 기입오류
+                        </div>
+                    </div>
+                </div>
+                <!--select box 방식 -->
+                <div class="mb-3">
+                    <label for="categories" class="form-label">카테고리 설정</label>
+                    <select th:field="*{categoryId}" class="form-select form-select-sm"
+                            aria-label=".form-select-sm example">
+                        <option th:each="category:${categories}" th:value="${category.id}"
+                                th:text="${category.categoryName}">일반
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="imageFile" class="form-label">이미지 파일 추가</label>
+                    <input type="file" accept=".gif, .jpg, .jpeg, .png" id="imageFile" name="imageFile" class="form-control form-control-sm" onchange="checkSize(this)">
+                    <script type="text/javascript">
+                        function checkSize(input) {
+                            if (input.files && input.files[0].size > (50 * 1024 * 1024)) {
+                                alert("파일 사이즈가 50mb 를 넘습니다.");
+                                input.value = null;
+                            }
+                        }
+                    </script>
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">내용</label>
+                    <textarea cols="50" rows="10" id="content" th:field="*{content}" th:classappend="${errors?.containsKey('content')}?'field-error':_" class="form-control">
+
+            </textarea>
+                    <div class="field-error" th:if="${errors?.containsKey('content')}"
+                         th:text="${errors['content']}">내용 기입 오류
+                    </div>
+                </div>
+                <div>
+                    <input type="hidden" th:value="${forum.id}" id="forumId" name="forumId">
+                </div>
+                <button type="submit" class="btn btn-light">올리기</button>
+            </form>
+        </div>
+
+        <div class="col col-lg">
+                <a th:if="${user!=null && (user.userType==user.userType.ADMIN || isManager)}" th:href="@{/forum/{forumId}/category/new(forumId=${forum.id})}"
+                   class="btn btn-outline-secondary btn-sm mb-1">카테고리 생성</a>
+                <a th:if="${(forum.forumType==forum.forumType?.MINOR && user!=null && user.userType==user.userType?.ADMIN)}"
+                   th:href="@{/forum/{id}/manager(id=${forum.id})}"
+                   class="btn btn-outline-secondary btn-sm mb-1" style="display: inline-block">
+                    매니저위임
+                </a>
+
+            <!-- 게시글 리스트-->
+            <div th:replace="fragments/post :: post"/>
+
+            <!--페이지-->
+            <hr>
+            <div class="container  mt-1">
+                <ul class="list-inline d-flex justify-content-center">
+                    <li th:if="${pageInfo.prev}" class="list-inline-item">
+                        <a th:href="@{{currentUrl}?page={start}(currentUrl=${currentUrl}, start=${(pageInfo.start)-1})}"
+                           class="text-decoration-none">&lt;</a></li>
+
+                    <li th:each="iter:${#numbers.sequence(pageInfo.start,pageInfo.end)}" class="list-inline-item">
+                        <a th:href="@{{currentUrl}?page={num}(currentUrl=${currentUrl}, num=${iter})}" th:text="${iter}"
+                           class="text-decoration-none"></a>
+                    </li>
+
+
+                    <li th:if="${pageInfo.next}" class="list-inline-item">
+                        <a th:href="@{{currentUrl}?page={end}(currentUrl=${currentUrl}, end=${(pageInfo.end)+1})}"
+                           class="text-decoration-none">&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

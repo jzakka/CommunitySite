@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:nl2br="https://github.com/bufferings/thymeleaf-extras-nl2br">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body class="bg-secondary bg-opacity-10">
+
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<a th:replace="fragments/forumName :: forumName"/>
+
+<div style="min-width: 1000px">
+    <div class="pt-1 mx-3">
+        <div class="row">
+            <div class="d-flex flex-column">
+                <p class="h4 fw-bold mb-auto" th:text="|[${post.category.categoryName}] ${post.getTitle()}|"></p>
+                <div class="d-flex align-items-end gap-1 mt-1">
+                    <span class="fs-6"
+                          th:text="${(post.postType!=postType[0])?post.anonymousUserName:post.user.userName}">작성자</span>
+                    <span class="fw-light">|</span>
+                    <span class="fw-light me-auto" th:text="${{post.getLastModifiedDate().withNano(0)}}">날짜</span>
+                    <a class="text-decoration-none" th:if="${(isPostAnonymous || isUserWriter)}"
+                       th:href="@{/forum/{forumId}/post/{id}/update(id=${postId}, forumId=${forumId})}">
+                        <p class="fw-lighter m-0" style="display: inline-block">수정</p>
+                    </a>
+                    <a class="text-decoration-none" th:if="${(isPostAnonymous || isUserWriter || isUserManager)}"
+                       th:href="@{/forum/{forumId}/post/{postId}/delete(forumId=${forumId}, postId=${postId})}">
+                        <p class="fw-lighter m-0" style="display: inline-block">삭제</p>
+                    </a>
+                </div>
+                <hr class="my-1" style="height: 1px;border: 0px;background-color: black">
+            </div>
+            <!--본문 영역-->
+            <div class="p-3">
+                <div th:if="${post.imageFile}"><img th:src="|/image/${post.imageFile.storeFileName}|"/>
+                </div>
+                <div><p class="fw-normal" nl2br:text="${post.getContent()}"></p></div>
+            </div>
+        </div>
+        <div class="row justify-content-end mb-3">
+            <div class="col" style="text-align: center">
+                <div style="display: inline-block">
+                    <button type="button" class="btn btn-outline-success" style="width: 68px"
+                            th:onclick="|location.href='@{/forum/{forumId}/post/{postId}/good(forumId=${forumId}, postId=${post.id})}'|">
+                        추천<p th:text="${post.good}" style="margin: 0px">추천수</p></button>
+                </div>
+                <div style="display: inline-block">
+                    <button type="button" class="btn btn-outline-danger" style="width: 68px"
+                            th:onclick="|location.href='@{/forum/{forumId}/post/{postId}/bad(forumId=${forumId}, postId=${post.id})}'|">
+                        비추천<p th:text="${post.bad}" style="margin: 0px">비천수</p></button>
+                </div>
+            </div>
+        </div>
+        <hr class="my-1" style="height: 1px;border: 0px;background-color: black">
+    </div>
+    <!-- 댓글 영역-->
+    <div class="ms-3 p-1">
+        <!--댓글들-->
+        <div th:replace="fragments/comment :: comment"/>
+        <!--댓글 입력 부분-->
+        <div class="mt-3">
+            <form th:action="@{/forum/{forumId}/post/{postId}/comment/new(postId=${postId}, forumId=${forumId})}"
+                  th:object="${commentForm}" method="post">
+                <div class="row mb-1" th:if="${user==null}">
+                    <div class="col-sm-2">
+                        <label for="username" class="form-label">작성자</label>
+                        <input type="text" cols="10" id="username" th:field="*{username}"
+                               th:errorclass="field-error" class="form-control form-control-sm">
+                        <div class="field-error" th:errors="*{username}">작성자 이름 기입 오류</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" cols="10" id="password" th:field="*{password}"
+                               th:errorclass="field-error" class="form-control form-control-sm">
+                        <div class="field-error" th:errors="*{password}">비밀번호 기입오류</div>
+                    </div>
+                </div>
+                <div class="mb-2 me-3">
+                    <label for="content" th:text="댓글" class="form-label"></label>
+                    <textarea cols="35" rows="2" th:field="*{content}" th:errorclass="field-error"
+                              class="form-control"></textarea>
+                    <div class="field-error" th:errors="*{content}">내용 기입 오류</div>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" id="content" class="btn btn-secondary" th:text="댓글등록"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    $(document).ready(function () {
+        let likeMessage = "[[${likeMessage}]]";
+        let dislikeMessage = "[[${dislikeMessage}]]";
+        if (likeMessage != "") {
+            alert(likeMessage);
+        }
+        if (dislikeMessage != "") {
+            alert(dislikeMessage);
+        }
+    })
+</script>
+</body>
+</html>

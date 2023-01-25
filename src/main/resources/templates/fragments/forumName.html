@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="mx-3 " th:fragment="forumName">
+    <div class="d-flex align-items-end">
+        <a class="text-decoration-none  me-auto" th:href="@{/forum/{forumId}(forumId=${forumId})}">
+            <p style="display: inline-block" class="h2 text-center fw-bolder text-secondary m-0" th:text="${forumName}">
+                포럼이름</p>
+        </a>
+        <nav style="--bs-breadcrumb-divider: '|';display: inline-block;" aria-label="breadcrumb">
+            <ol class="breadcrumb m-0">
+                <li th:each="category:${categories}" class="breadcrumb-item">
+                    <a th:href="@{/forum/{forumId}/category/{categoryId}(forumId=${forum.id}, categoryId=${category.id})}">
+                        <p class="text-muted m-0" style="display: inline-block;" th:text="${category.categoryName}">
+                            카테고리</p>
+                    </a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    <hr class="my-1" style="height: 3px;border: none;background-color: black">
+</div>
+</html>

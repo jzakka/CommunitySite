@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div class="container">
+    <form action="post.html" th:action th:object="${postForm}" enctype="multipart/form-data" method="post">
+        <input type="hidden" id="id" name="id" th:value="${postId}">
+        <div>
+            <label for="title" class="form-label">제목</label>
+            <input id="title" type="text" class="form-control" th:errorclass="field-error" th:field="*{title}">
+            <div th:errors="*{title}" class="field-error">제목 기입 오류</div>
+        </div>
+        <input type="hidden" id="postType" name="postType" th:value="*{postType}">
+        <div th:if="${postForm.postType!=postForm.postType.NORMAL}">
+            <label for="password" class="form-label">비밀번호</label>
+            <input id="password" type="password" class="form-control" th:errorclass="field-error" th:field="*{password}">
+            <div th:errors="*{password}" class="field-error">비밀 번호 기입 오류</div>
+        </div>
+        <div>
+            <label for="imageFile" class="form-label">이미지 파일 추가</label>
+            <input type="file" id="imageFile" accept=".gif, .jpg, .jpeg, .png"
+                   th:field="*{imageFile}"  class="form-control" onchange="checkSize(this)">
+            <div th:if="${postForm.uploadFileName!=null && !postForm.uploadFileName.isEmpty()}" >
+                <img th:src="|/image/*{storeFileName}|" style="max-height: 70px;width: auto" class="my-2"/>
+                <p th:text="|기존 업로드 파일: *{uploadFileName}|">기존 업로드 파일:~~~.ext</p>
+            </div>
+            <input type="hidden" id="storeFileName" name="storeFileName" th:value="*{storeFileName}">
+            <input type="hidden" id="uploadFileName" name="uploadFileName" th:value="*{uploadFileName}">
+            <script type="text/javascript">
+                function checkSize(input) {
+                    if (input.files && input.files[0].size > (50 * 1024 * 1024)) {
+                        alert("파일 사이즈가 50mb 를 넘습니다.");
+                        input.value = null;
+                    }
+                }
+            </script>
+        </div>
+        <div class="mb-2">
+            <label for="content" class="form-label">내용</label>
+            <textarea id="content" cols="50" rows="10" class="form-control" th:errorclass="field-error" th:field="*{content}">
+                내용
+            </textarea>
+            <div th:errors="*{content}" class="field-error">내용 기입 오류</div>
+        </div>
+        <div class="gap-2">
+            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/forum/{forumId}/post/{postId}(forumId=${forumId}, postId=${postId})}'|">취소</button>
+        </div>
+        <input type="hidden" id="forumId" name="forumId" th:value="${forumId}">
+    </form>
+</div>
+</body>
+</html>

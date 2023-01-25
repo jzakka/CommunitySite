@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:each="comment:${post.getComments()}" class="card mb-2" style="width: 45rem;" th:fragment="comment">
+    <div class="card-header gap-1">
+        <div class="position-relative">
+            <p class="fs-6 mb-0" style="display: inline-block"
+               th:text="${(comment.postType!=postType[0])?comment.anonymousUserName:comment.user.userName}">작성자</p>
+            <p class="fw-lighter mb-0" style="display: inline-block" th:text="${{comment.lastModifiedDate.withNano(0)}}">날짜</p>
+            <a class="text-decoration-none" style="position:absolute; right: 2px"
+               th:href="@{/forum/{forumId}/post/{postId}/comment/{commentId}/delete(forumId=${forumId},postId=${postId}, commentId=${comment.id})}">
+                <p style="display: inline-block" class="text-muted fw-lighter mb-0">X</p>
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="card-text" th:text="${comment.content}">댓글내용</p>
+    </div>
+</div>
+</html>
