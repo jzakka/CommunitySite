@@ -1,12 +1,10 @@
 # CommunitySite [![Build Status](https://app.travis-ci.com/Jzakka/CommunitySite.svg?branch=main)](https://app.travis-ci.com/Jzakka/CommunitySite)
-여름방학 알차게 보내기
 
 ~~domain: communitys1te.com~~(서버내림)
 
 프로젝트 이름: CommunitySite <br/>
-개요: 여러 사용자들이 이용할 수 있는 게시판 서비스 <br/>
-기간: 22년 7월 한달간 <br/>
-사용한 기술 스택: AWS EC2, Spring Boot, JPA, MariaDB <br/>
+개요: 다양한 주제로 커뮤니티를 하는 포럼형 커뮤니티  <br/>
+기술 스택: AWS EC2, Spring Boot, JPA, MariaDB <br/>
 구현된 기능: <br/>
 1. 로그인/로그아웃 <br/>
 2. 관리자에 의한 포럼 생성 <br/>
@@ -17,11 +15,11 @@
 
 ***
 
-## ERD
-![CommunitySite_project drawio (1)](https://user-images.githubusercontent.com/105845911/197371737-00583fbd-cfac-4f9f-a932-1b0ce79631cb.png)
+## 모델 관계
+![CommunitySite_project](https://user-images.githubusercontent.com/105845911/214726618-c8ed6e91-e49a-4fb0-a591-8d1d2936c8ff.jpg)
 
 ## 로비
-<img width="1495" alt="스크린샷 2022-10-23 오전 11 36 45" src="https://user-images.githubusercontent.com/105845911/197371746-1a927b6b-6349-4b92-bc93-cf8ecbb5bcab.png"/>
+<img width="1512" alt="스크린샷 2023-01-26 오전 9 35 00" src="https://user-images.githubusercontent.com/105845911/214727049-f524150e-ec4f-4e95-b19b-e36de5199118.png">
 
 포럼이름에 M이 붙은건 마이너게시판으로 일반 사용자인 매니저가 관리하는 게시판<br/>
 
