@@ -1,6 +1,6 @@
 # CommunitySite [![Build Status](https://app.travis-ci.com/Jzakka/CommunitySite.svg?branch=main)](https://app.travis-ci.com/Jzakka/CommunitySite)
 
-데모사이트는 [여기](communitys1te.com)
+데모사이트는 [여기](http://communitys1te.com)
 
 프로젝트 이름: CommunitySite <br/>
 개요: 다양한 주제로 커뮤니티를 하는 포럼형 커뮤니티  <br/>
